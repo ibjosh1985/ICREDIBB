@@ -4,10 +4,6 @@
 \***************************************************/
 
 
-..::|| Readme (Last Updated: 4/13/2002) ||::..
-
-
-
 .:| Installation |:.
 1) Unzip all contents of the compressed file into your web server.
 
@@ -70,3 +66,4 @@ define_syslog_variables  = On
 session.referer_check =      <-- IIS & PHP work *much* better together of this is blank or 0.
 
 session.use_trans_sid = 1    <-- This should be fine but if there are session problems (i.e. the session ID in the URL) change to 0.
+
