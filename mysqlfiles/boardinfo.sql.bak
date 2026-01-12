@@ -1,0 +1,16 @@
+CREATE TABLE ibb_boardinfo (
+  boardname varchar(50) default NULL,
+  description varchar(50) default NULL,
+  theme varchar(100) default 'themes/browns.php',
+  boardurl varchar(50) default NULL,
+  avwidth varchar(20) default NULL,
+  avheight varchar(20) default NULL,
+  forumspage varchar(20) default NULL,
+  threadspage varchar(20) default NULL,
+  offset varchar(10) NOT NULL default '0',
+  cookie varchar(10) NOT NULL default '',
+  htmltitles char(3) NOT NULL default '',
+  htmlsig char(3) NOT NULL default '',
+  codesig char(3) NOT NULL default '',
+  logo varchar(50) NOT NULL default 'images/logo5.gif'
+) TYPE=MyISAM

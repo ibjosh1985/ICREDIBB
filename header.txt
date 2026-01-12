@@ -1,0 +1,287 @@
+<?php
+//DO NOT TOUCH ANY OF THE PHP CODE
+//
+//IF YOU DO AND IT SCREWS UP THE BOARD, IT IS NOT ICREDIBB'S RESPONSIBILITY
+//
+//EDIT IT AT YOUR OWN RISK!
+
+//tells php to not show unnessary errors
+error_reporting(0);
+
+//connects icredibb to database
+include("database.php");
+mysql_connect($db_Hostname, $db_UserName, $db_Password) || die("Can't Connect to Database: ".mysql_error());
+mysql_select_db($db_Database);
+
+//sets cookies
+setcookie("userstuffid", $PHPSESSID, time()+1086400);
+setcookie("sessionuser", $sessionuser, time()+1086400);
+setcookie("count", $count, time()+1086400);
+setcookie("sessionstatus", $sessionstatus, time()+1086400);
+
+//gets user's time preference
+$result = mysql_query("SELECT timepref FROM ibb_members WHERE name='$sessionuser'");
+	  while ($row = mysql_fetch_array($result)) {
+		  $timepreference = $row["timepref"];
+	  }
+
+//gets time in two different formats
+$thetime=date("m/d/Y h:i:s");
+$realtime=date("h:i:s");
+
+//gets IP address
+$IP = $REMOTE_ADDR;
+
+//gets the URL of the page the user is on
+$thelocation = $HTTP_SERVER_VARS["REQUEST_URI"];
+
+//gets online user info
+$result = mysql_query("SELECT * FROM ibb_onlineusers where username = '$sessionuser'");
+while ($row = mysql_fetch_array($result)) {
+$onlineIP = $row["IP"];
+$onlineusername = $row["username"];
+$location = $row["location"];
+$onlineusertime = $row["time"];
+}
+$actualtime=date("h:i:s");
+$onlinetime = time();
+$ttime = time();
+$newtime = $ttime-600;
+if ($onlineusername == $sessionuser) {
+}else{
+if ($onlineusertime == false) {
+$pagename = "$boardname";
+$sql = "INSERT INTO ibb_onlineusers SET IP='$IP', username='$sessionuser', location='$thelocation', time='$ttime', actualtime='$realtime', pagename='$pagename'";
+if (mysql_query($sql)) { 
+} else { 
+echo(mysql_error()); 
+} 
+}
+}
+$sql = "UPDATE ibb_onlineusers SET IP='$IP', username='$sessionuser', location='$thelocation', time='$ttime', actualtime='$actualtime' WHERE IP='$IP'";
+if (mysql_query($sql)) { 
+} else { 
+echo(mysql_error()); 
+} 
+$atime = time();
+$newtime = $atime - 300;
+$sql = "DELETE FROM ibb_onlineusers WHERE time<'$newtime'";
+if (mysql_query($sql)) { 
+} else { 
+} 
+
+//gets the board info
+$result = mysql_query("SELECT * FROM ibb_boardinfo");
+while ($row = mysql_fetch_array($result)) {
+$boardname = $row["boardname"]; 
+$description = $row["description"];
+$boardurl = $row["boardurl"];
+$forumspage2 = $row["forumspage"];
+$threadspage2 = $row["threadspage"];
+}
+
+//gets the name of the newest member
+$query = "select name from ibb_members order by mid desc limit 1";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$newestmember = $row[0];
+
+//gets the member option status
+$query = "select options from ibb_members where name='$sessionuser'";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$optionstatus = $row[0];
+
+//gets the member ID from the newest member
+$query = "select mid from ibb_members where name='$newestmember'";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$newmemberid = $row[0];
+
+//gets the amount of forums
+$query = "select count(*) from ibb_forums";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$totalforums = $row[0];
+
+//gets the total amount of members
+$query = "select count(*) from ibb_members";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$totalmembers = $row[0];
+
+//gets number of topics
+$query = "SELECT count(*) FROM ibb_threads";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$topicnumber = $row[0];
+
+//gets number of replies
+$query = "SELECT count(*) FROM ibb_replies";
+$result = mysql_query($query);
+$row = mysql_fetch_row($result);
+$replynumber = $row[0];
+
+//gets avatar and mid from user table
+$result = mysql_query("SELECT * FROM ibb_members WHERE name='$sessionuser'") or die(mysql_error());
+while ($row = mysql_fetch_array($result)) {
+$avatar = $row["aviator"];
+$YOURMID = $row["mid"];
+}
+
+//THE HTML HERE ON IS EDITTABLE
+?>
+<HTML><HEAD>
+<STYLE type=text/css>
+BODY {
+	SCROLLBAR-BASE-COLOR: #16416D;
+	SCROLLBAR-ARROW-COLOR: #ffffff;
+}
+SELECT {
+	FONT-FAMILY: Verdana,Arial,Helvetica,sans-serif;
+	FONT-SIZE: 11px;
+	COLOR: #000000;
+	BACKGROUND-COLOR: #CFCFCF
+}
+TEXTAREA, .bginput {
+	FONT-SIZE: 12px;
+	FONT-FAMILY: Verdana,Arial,Helvetica,sans-serif;
+	COLOR: #000000;
+	BACKGROUND-COLOR: #CFCFCF
+}
+A:link, A:visited, A:active {
+	COLOR: #ffffff;
+}
+A:hover {
+	COLOR: BEC8D1;
+}
+#cat A:link, #cat A:visited, #cat A:active {
+	COLOR: #ffffff;
+	TEXT-DECORATION: none;
+}
+#cat A:hover {
+	COLOR: #ffffff;
+	TEXT-DECORATION: underline;
+}
+#ltlink A:link, #ltlink A:visited, #ltlink A:active {
+	COLOR: #ffffff;
+	TEXT-DECORATION: none;
+}
+#ltlink A:hover {
+	COLOR: BEC8D1;
+	TEXT-DECORATION: underline;
+}
+.thtcolor {
+	COLOR: #ffffff;
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY id=all text=#ffffff vLink=#000020 aLink=#000020 link=#000020 
+bgColor=#16416d topMargin=10 marginheight="10" marginwidth="10">
+<CENTER><a href="index.php"><img src='images/logo5.gif' border=0></a>
+<TABLE cellSpacing=0 cellPadding=10 width="96%" bgColor=#16416d border=0>
+  <TBODY>
+  <TR>
+    <TD>
+			  <?php
+			  //DO NOT EDIT THIS
+              if ($optionstatus == "off") {
+				?> 
+				<center><FONT face=Verdana color=#ffffff size=1>User Status:</U></STRONG> 
+                  <?php echo $sessionstatus; ?> [ <a href="index.php?function=toggleoptions">Show/Hide Options</a> ]</FONT></center>
+				<?php
+			  }else{
+		      //HTML HERE ON OUT IS EDITABLE
+			  ?>
+      <TABLE cellSpacing=0 cellPadding=1 width="100%" background="" border=0>
+        <TBODY>
+        <TR>
+          <TD background="" bgColor=#000000>
+            <TABLE cellSpacing=0 cellPadding=4 width="100%" background="" 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD width="50%" bgColor=#2c5588><STRONG><FONT face=Verdana 
+                  color=#ffffff size=1>»&nbsp;Welcome 
+                  to <?php echo $boardname; ?>, <?php echo $sessionuser; ?></FONT></STRONG></TD>
+                <TD background="" bgColor=#2c5588 colSpan=6><FONT face=Verdana 
+                  color=#ffffff size=1><B>»&nbsp;<?php echo $boardname; ?>
+              Stats</B></FONT></TD></TR>
+              <TR>
+                <TD width="50%" background="" bgColor=#000000><STRONG><FONT 
+                  face=Verdana color=#eeeeff size=2></FONT></STRONG></TD>
+                <TD background="" bgColor=#000000 colSpan=6><FONT 
+                  face=Verdana></FONT></TD></TR>
+              <TR>
+                <TD width="50%" bgColor=#16416d><FONT size=1>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD width="10%">
+					  
+			<?php 
+				  //EDIT AT YOUR OWN RISK
+				  if ($sessionuser == "Guest") {
+				  echo ("<img src='images/guestavatar.gif'>");
+			}else{
+				if (($avatar == "") || ($avatar == "You do not have an avatar yet.")) {
+				  echo ("<img src='images/noavatar.gif'>");
+				}else{
+					echo ("<img src='$avatar'>");
+				}
+			}?>
+			
+			</TD>
+                      <TD width="1%"><FONT face=Verdana>&nbsp;</FONT></TD>
+                      <TD vAlign=top width="89%">
+					  <FONT face=Verdana size=1>
+					  <?php
+					  if ($sessionstatus == "Guest") {
+						  echo ("<a href=\"index.php?function=register\">Please Register</a>");
+			          }else{
+						  ?>
+                        Enter the </FONT>
+					  <FONT size=1>
+					  <FONT face=Verdana><U><a href="membercp.php">User 
+                        CP</a></U><?php if ($sessionstatus == "admin") {?>, <u><a href="admincp.php">Admin CP</a></u><?php } ?>
+							
+						<?php 
+						//EDIT AT YOUR OWN RISK
+						if($sessionstatus == "admin") { 
+						?>
+						<BR>Change Color Theme </FONT>
+						<FONT face=Verdana 
+                        color=#ffffff><U><STRONG><a href="admincp.php?function=thchange">»</a>
+						<?php } ?>
+							
+						<BR></STRONG></U>Change Time 
+                        Zone <STRONG><U><a href="membercp.php?function=timechange">»</a></U> 
+                        </STRONG><BR><BR><U><STRONG><a href="membercp.php?function=avchange">Change 
+                        Avatar</a></STRONG></U></FONT></FONT>
+
+						<?php 
+						//DO NOT EDIT THIS
+						} 
+						$totalposts = $topicnumber + $replynumber;
+						//HTML HERE ON OUT IS EDITABLE
+						?>
+
+						</TD></TR></TBODY></TABLE></FONT></TD>
+                <TD vAlign=top background="" bgColor=#16416d colSpan=6>
+				<FONT size=1>
+				<FONT face=Verdana>
+				<STRONG>Total Posts:</STRONG> 
+                  <?php echo $totalposts; ?> - 
+				  <STRONG>Total Threads:</STRONG> 
+				  <?php echo $topicnumber; ?><BR>Total 
+                  Registered Members: <B>
+				  <?php echo $totalmembers; ?><BR>
+				  </B>Welcome to our newest 
+                  member, </FONT>
+				  <FONT face=Verdana 
+                  size=1><STRONG><U>
+				  <?php echo ("<a href=\"member.php?MID=$newmemberid\">$newestmember</a>"); ?><BR>
+				  <BR>User Status:</U></STRONG> 
+                  <?php echo $sessionstatus; ?> [ <a href="index.php?function=toggleoptions">Show/Hide Options</a> ]</FONT>
+				  </FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FONT><BR></P><?php } ?>

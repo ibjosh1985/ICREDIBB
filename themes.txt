@@ -1,0 +1,61 @@
+/***************************************************\
+**                    IcrediBB Bulletin Board System                    **
+**         Copyright © 2001-2002 IcrediBB Design Team         **
+\***************************************************/
+
+
+..::|| Theming For iBB Gurus ||::..
+
+
+
+.:| Editting Themes |:.
+Note: The theme folder you wish to edit must be chmod 755 if on Unix
+
+1) Go to the AdminCP
+
+2) Click "Edit Theme Colors"
+
+3) Choose the name of the color theme you wish to change.
+
+4) Edit the colors to meet your needs.
+
+5) Submit the editted theme.
+
+
+.:| Creating New Themes |:.
+Are you up to the challenge? 
+You better be...
+Because...
+This isn't going to be easy...
+Well, maybe :).
+
+1) Go to the AdminCP.
+
+2) Click "Create A New Color Theme".
+
+3) Choose the name of your new color theme.
+
+4) Choose the colors for you new theme. There is a ton of options, 
+that is why this is only recommended for patient people with lots of 
+time. :D
+
+5) Submit the new theme.
+
+6) Back in the AdminCP, click "Change Color Theme".
+
+7) Choose your new theme you just spent tons of time working on.
+
+8) Upload your special images to the images folder inside the theme folder.
+
+
+.:| Images Required |:.
+These are the images that get changed with the change of themes:
+-faq.gif
+-home.gif
+-login.gif
+-logout.gif
+-newreply.gif
+-newthread.gif
+-register.gif
+-search.gif
+-usercp.gif
