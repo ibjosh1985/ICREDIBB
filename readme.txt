@@ -1,6 +1,6 @@
 /***************************************************\
 **                    IcrediBB Bulletin Board System                    **
-**         Copyright © 2001-2002 IcrediBB Design Team         **
+**         Copyright Â© 2026 IcrediBB Design Team         **
 \***************************************************/
 
 
@@ -57,7 +57,6 @@ I am on a server running IIS. When I try to login, it never changes from Guest.
 This will require a change in the setup files for the php.ini file. Please send the following
 information to your host:
 
-//Thanks to Paul Ellison [ http://philo.mine.nu ] for this fix, he saved my life\\
 allow_call_time_pass_reference = On
 display_errors = Off         <-- This will cause IcrediBB to stop functioning if it's on. 
 register_globals = On
@@ -69,4 +68,5 @@ c:/php/extensions/           <-- Notice the *forward* slashes - important.
 allow_url_fopen = On
 define_syslog_variables  = On
 session.referer_check =      <-- IIS & PHP work *much* better together of this is blank or 0.
+
 session.use_trans_sid = 1    <-- This should be fine but if there are session problems (i.e. the session ID in the URL) change to 0.
